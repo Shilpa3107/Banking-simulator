@@ -56,8 +56,8 @@ public class TransactionTest {
 		
 		
 		try {
-			Account fromAccount = accService.createAccount("Hari", "hari@gmail.com", new BigDecimal("10000"));
-			Account toAccount = accService.createAccount("sita", "sita@gmail.com", new BigDecimal("20000"));
+			Account fromAccount = accService.createAccount("Hari", "hari@gmail.com", "pass", new BigDecimal("10000"));
+			Account toAccount = accService.createAccount("sita", "sita@gmail.com", "pass", new BigDecimal("20000"));
 			System.out.println(fromAccount);
 			System.out.println(toAccount);
 			

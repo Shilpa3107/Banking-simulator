@@ -52,10 +52,12 @@ public class BankingApplication {
 					String name = sc.nextLine();
 					System.out.println("Enter Email :");
 					String email = sc.nextLine();
+					System.out.println("Enter Password :");
+					String password = sc.nextLine();
 					System.out.println("Enter opening balance :");
 					BigDecimal openingBalance = sc.nextBigDecimal();
 				try {
-					Account account = accService.createAccount(name, email, openingBalance);
+					Account account = accService.createAccount(name, email, password, openingBalance);
 					System.out.println("Account created successfully: "+" Account Number : "+account.getAccountNumber());
 				} catch (InvalidAmountException e) {
 					// TODO Auto-generated catch block

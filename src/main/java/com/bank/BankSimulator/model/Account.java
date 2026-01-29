@@ -7,16 +7,31 @@ public class Account{
 	
 	private static final AtomicLong COUNTER = new AtomicLong(1000000L);
 	
-	private final String accountNumber;
+	public static void setCounter(long value) {
+		COUNTER.set(value);
+	}
+	
+	private String accountNumber;
 	private String holderName;
 	private String email;
+	private String password;
 	private BigDecimal balance;
 	
-	public Account(String holderName, String email, BigDecimal openingBalance) {
+	public Account(String holderName, String email, String password, BigDecimal openingBalance) {
 		this.accountNumber = String.valueOf(COUNTER.getAndIncrement());
 		this.holderName = holderName;
 		this.email = email;
+		this.password = password;
 		this.balance = openingBalance;
+	}
+
+	// For database loading
+	public Account(String accountNumber, String holderName, String email, String password, BigDecimal balance) {
+		this.accountNumber = accountNumber;
+		this.holderName = holderName;
+		this.email = email;
+		this.password = password;
+		this.balance = balance;
 	}
 	
 	
@@ -52,6 +67,14 @@ public class Account{
 
 	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public String getAccountNumber() {

@@ -31,4 +31,22 @@ WITHDRAW | Acc: 1000000 | Amount: 200
 WITHDRAW | Acc: 1000000 | Amount: 200
 TRANSFER | FromAcc: 1000001 | ToAccount: 1000000 | Amount 1000
 TRANSFER | FromAcc: 1000001 | ToAccount: 1000000 | Amount 1000
+DEPOSITE | Acc: 1000000 | Amount: 200DEPOSITE | Acc: 1000000 | Amount: 200
 DEPOSITE | Acc: 1000000 | Amount: 200
+WITHDRAW | Acc: 1000000 | Amount: 100
+DEPOSITE | Acc: 1000002 | Amount: 500
+WITHDRAW | Acc: 1000002 | Amount: 200
+DEPOSITE | Acc: 1000003 | Amount: 500
+WITHDRAW | Acc: 1000003 | Amount: 200
+DEPOSITE | Acc: 1000000 | Amount: 100
+WITHDRAW | Acc: 1000000 | Amount: 90
+TRANSFER | FromAcc: 1000000 | ToAccount: 1000001 | Amount 100
+DEPOSITE | Acc: 1000000 | Amount: 20
+WITHDRAW | Acc: 1000000 | Amount: 90
+TRANSFER | FromAcc: 1000000 | ToAccount: 1000001 | Amount 30
+DEPOSITE | Acc: 1000004 | Amount: 900
+DEPOSITE | Acc: 1000004 | Amount: 90
+WITHDRAW | Acc: 1000004 | Amount: 30
+TRANSFER | FromAcc: 1000004 | ToAccount: 1000001 | Amount 200
+DEPOSITE | Acc: 1000000 | Amount: 10
+WITHDRAW | Acc: 1000000 | Amount: 10

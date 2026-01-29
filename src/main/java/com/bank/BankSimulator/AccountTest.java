@@ -18,11 +18,11 @@ public class AccountTest {
 		AccountService service = new AccountService(repo);
 		
 		try {
-			Account acc1 = service.createAccount("Krish", "krish@gmail.com", new BigDecimal("2000"));
-			Account acc2 = service.createAccount("Radha", "radha@gmail.com", new BigDecimal("5000"));
+			Account acc1 = service.createAccount("Krish", "krish@gmail.com", "pass", new BigDecimal("2000"));
+			Account acc2 = service.createAccount("Radha", "radha@gmail.com", "pass", new BigDecimal("5000"));
 			
-			Account acc3 = service.createAccount("Krish", "krish@gmail.com", new BigDecimal("2000"));
-			Account acc4 = service.createAccount("Radha", "radha@gmail.com", new BigDecimal("5000"));
+			Account acc3 = service.createAccount("Krish", "krish@gmail.com", "pass", new BigDecimal("2000"));
+			Account acc4 = service.createAccount("Radha", "radha@gmail.com", "pass", new BigDecimal("5000"));
 			
 			System.out.println("Created Accounts..");
 			System.out.println(acc1);

@@ -28,6 +28,7 @@ public class TransactionService {
 		
 		Account acc = accountService.getAccount(accNo);
 		acc.credit(amount);
+		accountService.updateAccount(acc);
 		
 		FileReportUtil.writeLine("DEPOSITE | Acc: "+accNo+" | Amount: "+amount);
 		
@@ -50,6 +51,7 @@ public class TransactionService {
 		}
 		
 		account.debit(amount);
+		accountService.updateAccount(account);
 		
 		FileReportUtil.writeLine("WITHDRAW | Acc: "+accNo+" | Amount: "+amount);
 		
@@ -73,6 +75,8 @@ public class TransactionService {
 		
 		sender.debit(amount);
 		recevier.credit(amount);
+		accountService.updateAccount(sender);
+		accountService.updateAccount(recevier);
 		
 		FileReportUtil.writeLine("TRANSFER | FromAcc: "+fromAcc+" | ToAccount: "+toAcc+" | Amount "+amount);
 		

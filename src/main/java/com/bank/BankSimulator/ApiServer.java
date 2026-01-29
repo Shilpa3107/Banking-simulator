@@ -40,36 +40,87 @@ public class ApiServer {
 			res.type("application/json");
 			
 			AccountRequest data = gson.fromJson(req.body(), AccountRequest.class);
-			Account acc = accountService.createAccount(data.name, data.email, data.balance);
+			Account acc = accountService.createAccount(data.name, data.email, data.password, data.balance);
 			return gson.toJson(acc);
 			
+		});
+
+		// Login API
+		post("/accounts/login", (req, res) -> {
+			System.out.println("/accounts/login api is called");
+			res.type("application/json");
+			LoginRequest data = gson.fromJson(req.body(), LoginRequest.class);
+			try {
+				Account acc = accountService.authenticate(data.identifier, data.password);
+				return gson.toJson(acc);
+			} catch (Exception e) {
+				res.status(401);
+				return gson.toJson("Invalid credentials");
+			}
+		});
+
+		// Admin Login API
+		post("/admin/login", (req, res) -> {
+			System.out.println("/admin/login api is called");
+			res.type("application/json");
+			LoginRequest data = gson.fromJson(req.body(), LoginRequest.class);
+			if ("admin@bank.com".equals(data.identifier) && "admin123".equals(data.password)) {
+				return gson.toJson("Admin Success");
+			} else {
+				res.status(401);
+				return gson.toJson("Invalid Admin Credentials");
+			}
 		});
 		
 		
 		//Deposite API
 		post("/transactions/deposite",(req, res) ->{
 			System.out.println("transactions/deposite api is called");
+			try {
 			  TxRequest data = gson.fromJson(req.body(), TxRequest.class);
 			  trxService.deposite(data.accNo, data.amount);
 			  return "Deposite successfully..!";
+			} catch (Exception e) {
+				e.printStackTrace();
+				res.status(400);
+				return "Error: " + e.getMessage();
+			}
 		});
 		
 		//Withdraw API
 		post("/transactions/withdraw",(req, res) ->{
 			System.out.println("/transactions/withdraw api is called");
-			TxRequest data = gson.fromJson(req.body(), TxRequest.class);
-			trxService.withdraw(data.accNo, data.amount);
-			return "Withdraw successfully..!";
+			try {
+				TxRequest data = gson.fromJson(req.body(), TxRequest.class);
+				trxService.withdraw(data.accNo, data.amount);
+				return "Withdraw successfully..!";
+			} catch (Exception e) {
+				e.printStackTrace();
+				res.status(400);
+				return "Error: " + e.getMessage();
+			}
 		});
 		
 		post("/transactions/transfer",(req, res) -> {
 			System.out.println("/transactions/tranfer api is called");
-			TransferRequest data = gson.fromJson(req.body(), TransferRequest.class);
-			trxService.tranfer(data.fromAcc, data.toAcc, data.amount);
-			return "Transfer successfully..!";
-			
+			try {
+				TransferRequest data = gson.fromJson(req.body(), TransferRequest.class);
+				trxService.tranfer(data.fromAcc, data.toAcc, data.amount);
+				return "Transfer successfully..!";
+			} catch (Exception e) {
+				e.printStackTrace();
+				res.status(400);
+				return "Error: " + e.getMessage();
+			}
 		});
 		
+		
+		// IMPORTANT: /accounts/all must come BEFORE /accounts/:accNo to avoid route collision
+		get("/accounts/all",(req,res) -> {
+			System.out.println("/accounts/all api is called");
+			res.type("application/json");
+			return gson.toJson(accountService.listAll());
+		});
 		
 		get("/accounts/:accNo",(req,res) ->{
 			System.out.println("/accounts/acc api is called");
@@ -85,12 +136,17 @@ public class ApiServer {
 				return gson.toJson("Account not found");
 			}
 		});
-		
-		get("/accounts/all",(req,res) -> {
-			System.out.println("/accounts/all api is called");
-			res.type("application/json");
-			return gson.toJson(accountService.listAll());
-			
+
+		delete("/admin/accounts/:accNo", (req, res) -> {
+			System.out.println("/admin/accounts/delete api is called");
+			String accNo = req.params("accNo");
+			try {
+				accountService.deleteAccount(accNo);
+				return "Account deleted successfully";
+			} catch (Exception e) {
+				res.status(404);
+				return "Account not found";
+			}
 		});
 		
 		
@@ -125,8 +181,14 @@ public class ApiServer {
 	static class AccountRequest{
 			String name;
 			String email;
+			String password;
 			BigDecimal balance;
 		}
+
+	static class LoginRequest {
+		String identifier;
+		String password;
+	}
 	
 	static class TxRequest{
 		String accNo;

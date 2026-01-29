@@ -34,7 +34,7 @@ public class AlertTest {
 		}*/
 		
 		try {
-			Account account = accountService.createAccount("Chinnikrishna", "chinnikrishnamekala1@gmail.com", new BigDecimal("5000"));
+			Account account = accountService.createAccount("Chinnikrishna", "chinnikrishnamekala1@gmail.com", "pass", new BigDecimal("5000"));
 			trxService.withdraw(account.getAccountNumber(),new BigDecimal("4500"));
 			System.out.println("Amount is withdrawn Successfully..");
 			System.out.println("Total Balance : "+account.getBalance());

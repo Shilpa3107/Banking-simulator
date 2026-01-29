@@ -16,13 +16,21 @@ public class AccountService {
 		this.repo = repo;
 	}
 	
-	public Account createAccount(String holderName ,String email,BigDecimal openingBalance) throws InvalidAmountException {
+	public Account createAccount(String holderName ,String email, String password, BigDecimal openingBalance) throws InvalidAmountException {
 		if(openingBalance.compareTo(BigDecimal.ZERO) < 0) {
 			throw new InvalidAmountException("Opening balance cannot be negative");
 		}
 		
-		Account account = new Account(holderName,email,openingBalance);
+		Account account = new Account(holderName,email,password,openingBalance);
 		repo.save(account);
+		return account;
+	}
+
+	public Account authenticate(String identifier, String password) throws AccountNotFoundException {
+		Account account = repo.findAccountByIdentifier(identifier);
+		if (account == null || !account.getPassword().equals(password)) {
+			throw new AccountNotFoundException("Invalid credentials");
+		}
 		return account;
 	}
 	
@@ -38,6 +46,18 @@ public class AccountService {
 	
 	public Collection<Account> listAll(){
 		return repo.findAll();
+	}
+
+	public void deleteAccount(String accountNumber) throws AccountNotFoundException {
+		Account account = repo.findAccountByNumber(accountNumber);
+		if (account == null) {
+			throw new AccountNotFoundException("Account not found: " + accountNumber);
+		}
+		repo.delete(accountNumber);
+	}
+
+	public void updateAccount(Account account) {
+		repo.save(account);
 	}
 	
 }
